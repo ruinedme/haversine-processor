@@ -1,21 +1,39 @@
 Inital times
-    Debug profile:
-        Input Size: 1301558449
-        Pair count: 10000000
-        Haversine Sum: 5261.362032446277
-        Total time: 53857.0243ms (CPU Freq 3399996850)
-            Startup: 340105057 (0.19%)
-            Read: 2839038321 (1.55%)
-            Parse: 172995865196 (94.47%)
-            Sum: 6934675942, (3.79%)
-            MiscOutput: 4073885, (0.00%)
-    Release Profile:
-        Input Size: 1301558449
-        Pair count: 10000000
-        Haversine Sum: 5261.362032446277
-        Total time: 12935.3158ms (CPU Freq 3399998360)
-            Startup: 340110293 (0.77%)
-            Read: 2056021180 (4.67%)
-            Parse: 39769129723 (90.43%)
-            Sum: 1809982650, (4.12%)
-            MiscOutput: 4794773, (0.01%)
+Debug profile:
+    Input Size: 1301558449
+    Pair count: 10000000
+    Haversine Sum: 5261.362032446277
+    Total time: 53857.0243ms (CPU Freq 3399996850)
+        Startup: 340105057 (0.19%)
+        Read: 2839038321 (1.55%)
+        Parse: 172995865196 (94.47%)
+        Sum: 6934675942, (3.79%)
+        MiscOutput: 4073885, (0.00%)
+    Input Size: 1309
+        Pair count: 10
+        Haversine Sum: 5565.374670002545
+        Total time: 101.3004ms (CPU Freq 3399998580)
+            Startup: 340114202 (98.75%)
+            Read: 802672 (0.23%)
+            Parse: 384014 (0.11%)
+            Sum: 91639, (0.03%)
+            MiscOutput: 3025595, (0.88%)
+Release Profile:
+    Input Size: 1301558449
+    Pair count: 10000000
+    Haversine Sum: 5261.362032446277
+    Total time: 12935.3158ms (CPU Freq 3399998360)
+        Startup: 340110293 (0.77%)
+        Read: 2056021180 (4.67%)
+        Parse: 39769129723 (90.43%)
+        Sum: 1809982650, (4.12%)
+        MiscOutput: 4794773, (0.01%)
+    Input Size: 1309
+    Pair count: 10
+    Haversine Sum: 5565.374670002545
+    Total time: 101.7099ms (CPU Freq 3399996730)
+        Startup: 340073268 (98.34%)
+        Read: 702295 (0.20%)
+        Parse: 145288 (0.04%)
+        Sum: 72123, (0.02%)
+        MiscOutput: 4819302, (1.39%)
