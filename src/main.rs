@@ -42,12 +42,16 @@ fn main() {
     println!("Pair count: {}", total_points);
     println!("Haversine Sum: {}", avg_distance);
     let misc_out_elapsed = cpu_timer::read_cpu_timer() - misc_out_start;
-    
-    let total_os_time = (cpu_timer::read_os_timer() - timer.os_timer) as f64 / timer.os_freq as f64 * 1000f64;
+
+    let total_os_time =
+        (cpu_timer::read_os_timer() - timer.os_timer) as f64 / timer.os_freq as f64 * 1000f64;
     let total_cpu_time = (cpu_timer::read_cpu_timer() - timer.cpu_timer) as f64;
 
-//=============== PRINT STATS ======================================================================================
-    println!("Total time: {:0.4}ms (CPU Freq {})", total_os_time, timer.cpu_freq);
+    //=============== PRINT STATS ======================================================================================
+    println!(
+        "Total time: {:0.4}ms (CPU Freq {})",
+        total_os_time, timer.cpu_freq
+    );
     println!(
         "  Startup: {} ({:0.2}%)",
         startup_elapsed,
@@ -56,9 +60,13 @@ fn main() {
     println!(
         "  Read: {} ({:0.2}%)",
         load_file_elapsed,
-        load_file_elapsed as f64 / total_cpu_time *100f64
+        load_file_elapsed as f64 / total_cpu_time * 100f64
     );
-    println!("  Parse: {} ({:0.2}%)", parse_elapsed, parse_elapsed as f64 / total_cpu_time * 100f64);
+    println!(
+        "  Parse: {} ({:0.2}%)",
+        parse_elapsed,
+        parse_elapsed as f64 / total_cpu_time * 100f64
+    );
     println!(
         "  Sum: {}, ({:0.2}%)",
         calc_dist_elapsed,
