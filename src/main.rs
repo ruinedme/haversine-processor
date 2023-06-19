@@ -50,7 +50,7 @@ fn main() {
     //=============== PRINT STATS ======================================================================================
     println!(
         "Total time: {:0.4}ms (CPU Freq {})",
-        total_os_time, timer.cpu_freq
+        total_os_time, cpu_timer::cpu_freq()
     );
     println!(
         "  Startup: {} ({:0.2}%)",
