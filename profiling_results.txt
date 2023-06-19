@@ -1,0 +1,21 @@
+Inital times
+    Debug profile:
+        Input Size: 1301558449
+        Pair count: 10000000
+        Haversine Sum: 5261.362032446277
+        Total time: 53857.0243ms (CPU Freq 3399996850)
+            Startup: 340105057 (0.19%)
+            Read: 2839038321 (1.55%)
+            Parse: 172995865196 (94.47%)
+            Sum: 6934675942, (3.79%)
+            MiscOutput: 4073885, (0.00%)
+    Release Profile:
+        Input Size: 1301558449
+        Pair count: 10000000
+        Haversine Sum: 5261.362032446277
+        Total time: 12935.3158ms (CPU Freq 3399998360)
+            Startup: 340110293 (0.77%)
+            Read: 2056021180 (4.67%)
+            Parse: 39769129723 (90.43%)
+            Sum: 1809982650, (4.12%)
+            MiscOutput: 4794773, (0.01%)

@@ -1,57 +1,73 @@
+use cpu_timer;
 /**
  * Takes an JSON file input of LAT/LON pairs, and calculates the haversine distance between them
  * Also calculates the average distance of each pair
  */
 use std::env;
 use std::fs;
-use std::time;
 
 fn main() {
-    let start = time::SystemTime::now();
+    //allow for retireval of os_freq and cpu_freq
+    let timer = cpu_timer::Timer::new();
+
+    let startup_start = timer.cpu_timer;
+    //(cpu_elapsed) * os_freq / os_elapsed = cpu time
     let args: Vec<String> = env::args().collect();
     if args.len() < 2 {
         println!("Usage: {} input_file.json", args[0]);
         return;
     }
-    let loaded_file_time = time::SystemTime::now();
+    let startup_elapsed = cpu_timer::read_cpu_timer() - startup_start;
+
+    let load_file_start = cpu_timer::read_cpu_timer();
     let raw_json = fs::read_to_string(&args[1]).expect("Failed to read JSON file");
-    let loaded_file_time = loaded_file_time.elapsed().unwrap();
+    let load_file_elapsed = cpu_timer::read_cpu_timer() - load_file_start;
 
-    let parsed_pairs_time = time::SystemTime::now();
+    let parse_start = cpu_timer::read_cpu_timer();
+    let file_len = raw_json.len();
     let point_pairs = Haversine::parse(raw_json);
-    let parsed_pairs_time = parsed_pairs_time.elapsed().unwrap();
+    let parse_elapsed = cpu_timer::read_cpu_timer() - parse_start;
 
+    let calc_dist_start = cpu_timer::read_cpu_timer();
     let mut total_distance = 0.0f64;
     let total_points = point_pairs.len() as f64;
-    let calc_avg_dist_time = time::SystemTime::now();
     for pair in point_pairs {
         total_distance += Haversine::distance(&pair.point1, &pair.point2);
     }
     let avg_distance = total_distance / total_points;
-    let calc_avg_dist_time = calc_avg_dist_time.elapsed().unwrap();
+    let calc_dist_elapsed = cpu_timer::read_cpu_timer() - calc_dist_start;
 
-    println!("average distance of all points: {}", avg_distance);
-    let end_time = start.elapsed().unwrap();
-    println!("times:");
+    let misc_out_start = cpu_timer::read_cpu_timer();
+    println!("Input Size: {}", file_len);
+    println!("Pair count: {}", total_points);
+    println!("Haversine Sum: {}", avg_distance);
+    let misc_out_elapsed = cpu_timer::read_cpu_timer() - misc_out_start;
+    
+    let total_os_time = (cpu_timer::read_os_timer() - timer.os_timer) as f64 / timer.os_freq as f64 * 1000f64;
+    let total_cpu_time = (cpu_timer::read_cpu_timer() - timer.cpu_timer) as f64;
+
+//=============== PRINT STATS ======================================================================================
+    println!("Total time: {:0.4}ms (CPU Freq {})", total_os_time, timer.cpu_freq);
     println!(
-        "load file: {} \u{00B5}s -- {} s",
-        loaded_file_time.as_micros(),
-        loaded_file_time.as_secs()
+        "  Startup: {} ({:0.2}%)",
+        startup_elapsed,
+        startup_elapsed as f64 / total_cpu_time * 100f64
     );
     println!(
-        "parsed pairs: {} \u{00B5}s -- {} s",
-        parsed_pairs_time.as_micros(),
-        parsed_pairs_time.as_secs()
+        "  Read: {} ({:0.2}%)",
+        load_file_elapsed,
+        load_file_elapsed as f64 / total_cpu_time *100f64
+    );
+    println!("  Parse: {} ({:0.2}%)", parse_elapsed, parse_elapsed as f64 / total_cpu_time * 100f64);
+    println!(
+        "  Sum: {}, ({:0.2}%)",
+        calc_dist_elapsed,
+        calc_dist_elapsed as f64 / total_cpu_time * 100f64
     );
     println!(
-        "calculate avg distance: {} \u{00B5}s -- {} s",
-        calc_avg_dist_time.as_micros(),
-        calc_avg_dist_time.as_secs()
-    );
-    println!(
-        "total time: {} \u{00B5}s -- {} s",
-        end_time.as_micros(),
-        end_time.as_secs()
+        "  MiscOutput: {}, ({:0.2}%)",
+        misc_out_elapsed,
+        misc_out_elapsed as f64 / total_cpu_time * 100f64
     );
 }
 
