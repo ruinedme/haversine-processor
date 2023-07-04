@@ -20,7 +20,7 @@ fn main() {
     profile_scope!("read file",
     let raw_json = fs::read_to_string(&args[1]).expect("Failed to read JSON file");
     );
-    
+
     profile_scope!("parse pairs",
     let file_len = raw_json.len();
     let point_pairs = Haversine::parse(raw_json);
